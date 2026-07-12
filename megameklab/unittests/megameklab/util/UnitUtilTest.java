@@ -36,11 +36,15 @@ package megameklab.util;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.File;
+
 import megamek.common.TechAdvancement;
 import megamek.common.TechConstants;
 import megamek.common.enums.TechBase;
 import megamek.common.interfaces.ITechnology;
+import megamek.common.loaders.MekFileParser;
 import megamek.common.units.BipedMek;
+import megamek.common.units.Entity;
 import megamek.common.units.Mek;
 import megameklab.testing.util.InitializeTypes;
 import org.junit.jupiter.api.Test;
@@ -82,4 +86,26 @@ class UnitUtilTest {
 
         assertTrue(UnitUtil.isLegal(mek, lostech));
     }
+
+      @Test
+      void saveWithoutGeneratorKeepsMtfUUIDFirst() {
+            Mek mek = new BipedMek();
+
+            String saved = UnitUtil.saveUnitToString(mek, false);
+
+            assertTrue(saved.startsWith("uuid:" + mek.getUnitFileUUID()));
+            assertFalse(saved.contains("generator:"));
+      }
+
+      @Test
+      void saveWithoutGeneratorKeepsCompleteBlkHeader() throws Exception {
+            Entity entity = new MekFileParser(new File("testresources/Aquarius Escort.blk")).getEntity();
+
+            String saved = UnitUtil.saveUnitToString(entity, false);
+
+            int uuidIndex = saved.indexOf("<UUID>");
+            assertTrue(uuidIndex >= 0);
+            assertTrue(uuidIndex < saved.indexOf("<UnitType>"));
+            assertTrue(saved.indexOf(entity.getUnitFileUUID()) > uuidIndex);
+      }
 }

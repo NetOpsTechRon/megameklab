@@ -119,10 +119,21 @@ public class MegaMekLabFileSaver {
 
         File saveFile = chooseSaveFile(ownerFrame, entity);
         if (saveFile != null) {
-            CConfig.setMostRecentFile(saveFile.toString());
-            return saveUnitTo(ownerFrame, saveFile, entity);
+            return saveUnitAsTo(ownerFrame, saveFile, entity);
         }
         return null;
+    }
+
+    String saveUnitAsTo(JFrame ownerFrame, File saveFile, Entity entity) {
+        String previousUUID = entity.getUnitFileUUID();
+        entity.regenerateUnitFileUUID();
+        String savedFile = saveUnitTo(ownerFrame, saveFile, entity);
+        if (savedFile == null) {
+            entity.setUnitFileUUID(previousUUID);
+        } else {
+            CConfig.setMostRecentFile(saveFile.toString());
+        }
+        return savedFile;
     }
 
     // Replace owner class with EntitySource... somehow.
