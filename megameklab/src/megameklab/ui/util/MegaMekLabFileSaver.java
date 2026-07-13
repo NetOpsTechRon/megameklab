@@ -119,10 +119,21 @@ public class MegaMekLabFileSaver {
 
         File saveFile = chooseSaveFile(ownerFrame, entity);
         if (saveFile != null) {
-            CConfig.setMostRecentFile(saveFile.toString());
-            return saveUnitTo(ownerFrame, saveFile, entity);
+            return saveUnitAsTo(ownerFrame, saveFile, entity);
         }
         return null;
+    }
+
+    String saveUnitAsTo(JFrame ownerFrame, File saveFile, Entity entity) {
+        String previousUUID = entity.getUnitFileUUID();
+        entity.regenerateUnitFileUUID();
+        String savedFile = saveUnitTo(ownerFrame, saveFile, entity);
+        if (savedFile == null) {
+            entity.setUnitFileUUID(previousUUID);
+        } else {
+            CConfig.setMostRecentFile(saveFile.toString());
+        }
+        return savedFile;
     }
 
     // Replace owner class with EntitySource... somehow.
@@ -153,13 +164,17 @@ public class MegaMekLabFileSaver {
                 }
                 ps.println(UnitUtil.saveUnitToString(entity, true));
             }
-
-            PopupMessages.showUnitSavedMessage(ownerFrame, entity, file);
-            return file.toString();
         } catch (Exception ex) {
             PopupMessages.showFileWriteError(ownerFrame, ex.getMessage());
             logger.error("", ex);
             return null;
         }
+
+        try {
+            PopupMessages.showUnitSavedMessage(ownerFrame, entity, file);
+        } catch (Exception ex) {
+            logger.error("Unable to show unit saved message", ex);
+        }
+        return file.toString();
     }
 }
