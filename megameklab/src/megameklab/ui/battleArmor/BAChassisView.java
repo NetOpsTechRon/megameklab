@@ -262,6 +262,7 @@ public class BAChassisView extends BuildView implements ActionListener, ChangeLi
         return chkExoskeleton.isSelected();
     }
 
+    @Deprecated(since = "0.51.0", forRemoval = true)
     public boolean hasHarJel() {
         return chkHarJel.isEnabled() && chkHarJel.isSelected();
     }
