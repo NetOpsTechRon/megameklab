@@ -272,7 +272,10 @@ public class BAStructureTab extends ITab implements BABuildListener, ArmorAlloca
         } else {
             refresh.refreshEquipmentTable();
         }
-        panChassis.refresh();
+        if (!panBasicInfo.useClanTechBase()) {
+            getBattleArmor().setClanExoWithoutHarJel(false);
+        }
+        panChassis.setFromEntity(getBattleArmor());
         panMovement.refresh();
         panEnhancements.setFromEntity(getBattleArmor());
         panArmor.refresh();
@@ -370,7 +373,7 @@ public class BAStructureTab extends ITab implements BABuildListener, ArmorAlloca
             getBattleArmor().setClanExoWithoutHarJel(false);
         }
         panBasicInfo.setFromEntity(getBattleArmor());
-        panChassis.refresh();
+        panChassis.setFromEntity(getBattleArmor());
         panMovement.setFromEntity(getBattleArmor());
         panArmor.setFromEntity(getBattleArmor());
         panEnhancements.setFromEntity(getBattleArmor());
@@ -385,7 +388,7 @@ public class BAStructureTab extends ITab implements BABuildListener, ArmorAlloca
             getBattleArmor().setClanExoWithoutHarJel(false);
         }
         panBasicInfo.setFromEntity(getBattleArmor());
-        panChassis.refresh();
+        panChassis.setFromEntity(getBattleArmor());
         panArmor.refresh();
         refresh.refreshStatus();
         refreshPreview();
