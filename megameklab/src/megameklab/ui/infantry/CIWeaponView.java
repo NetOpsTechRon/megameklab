@@ -249,6 +249,7 @@ public class CIWeaponView extends BuildView implements ActionListener {
             txtGuns.setEnabled(false);
             cbNumGuns.setSelectedIndex(0);
             cbNumGuns.setEnabled(false);
+            inf.equipDisposableWeapon(null);
         }
 
         chkAntiMek.removeActionListener(this);

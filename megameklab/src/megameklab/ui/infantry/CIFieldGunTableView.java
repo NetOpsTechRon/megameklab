@@ -328,7 +328,8 @@ public class CIFieldGunTableView extends IView implements ActionListener {
      * from being shown again.
      */
     private JComponent getUserInfoPanel() {
-        Box userInfoPanel = Box.createHorizontalBox();
+        JPanel userInfoPanel = new JPanel(new WrapLayout(FlowLayout.LEFT));
+        userInfoPanel.setOpaque(false);
         JButton gotItButton = new JButton("Got it!");
         gotItButton.setForeground(UIUtil.uiYellow());
         gotItButton.addActionListener(e -> {
@@ -341,7 +342,6 @@ public class CIFieldGunTableView extends IView implements ActionListener {
         userInfoPanel.add(userInfoText);
         userInfoPanel.add(Box.createHorizontalStrut(15));
         userInfoPanel.add(gotItButton);
-        userInfoPanel.add(Box.createHorizontalGlue());
         return userInfoPanel;
     }
 
@@ -371,7 +371,6 @@ public class CIFieldGunTableView extends IView implements ActionListener {
         var showTogglesPanel = Box.createVerticalBox();
         if (CConfig.getBooleanParam(CConfig.NAG_EQUIPMENT_CTRL_CLICK)) {
             showTogglesPanel.add(getUserInfoPanel());
-            showTogglesPanel.add(Box.createVerticalStrut(4));
         }
         showTogglesPanel.add(buttonPanel);
         showTogglesPanel.setBackground(UIManager.getColor("Table.background"));

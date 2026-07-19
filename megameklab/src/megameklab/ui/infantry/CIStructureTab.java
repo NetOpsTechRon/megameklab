@@ -330,9 +330,6 @@ public class CIStructureTab extends ITab implements InfantryBuildListener {
             motiveTypeChanged(EntityMovementMode.INF_LEG, false);
         }
         getInfantry().setTechLevel(basicInfoView.getTechLevel().getCompoundTechLevel(basicInfoView.useClanTechBase()));
-        if (getInfantry().getTechLevel() < SimpleTechLevel.ADVANCED.ordinal()) {
-            getInfantry().equipDisposableWeapon(null);
-        }
         UnitUtil.checkEquipmentByTechLevel(getInfantry(), basicInfoView);
         InfantryUtil.resetInfantryArmor(getInfantry());
         platoonTypeView.setFromEntity(getInfantry());
